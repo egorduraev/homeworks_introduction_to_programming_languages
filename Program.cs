@@ -1,60 +1,47 @@
-﻿/*Задача 1: Задайте двумерный массив символов (тип char [,]). 
-Создать строку из символов этого массива.
+﻿/*Задача 1: Задайте значения M и N. Напишите программу, 
+которая выведет все натуральные числа в промежутке от M до N. 
+Использовать рекурсию, не использовать циклы.
 
-Задача 2: Задайте строку, содержащую латинские буквы в обоих регистрах. 
-Сформируйте строку, в которой все заглавные буквы заменены на строчные.
+Задача 2: Напишите программу вычисления функции Аккермана с помощью рекурсии. 
+Даны два неотрицательных числа m и n.
 
-Задача 3: Задайте произвольную строку. Выясните, является ли она палиндромом.
+Задача 3: Задайте произвольный массив. Выведете его элементы, начиная с конца. 
+Использовать рекурсию, не использовать циклы.*/
 
-Задача 4*(не обязательная): Задайте строку, состоящую из слов, разделенных пробелами. 
-Сформировать строку, в которой слова расположены в обратном порядке. 
-В полученной строке слова должны быть также разделены пробелами.*/
-
-// Task 1
-char[,] symbols = {
-    {'a', 'b', 'c'},
-    {'d', 'e', 'f'}
+//Task 1
+string naturals(int m, int n) {
+    if (m == n) return Convert.ToString(n);
+    return (m + " " + naturals(m + 1, n));
 };
-string str = "";
-for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 3; j++) {
-        str = str + Convert.ToString(symbols[i, j]);
-    }
-}
-Console.WriteLine(str);
+int M = 1, N = 5;
+Console.WriteLine("M = " + M + "; N = "+ N + " -> \"" + naturals(M, N) + "\"");
+M = 4; 
+N = 8;
+Console.WriteLine("M = " + M + "; N = "+ N + " -> \"" + naturals(M, N) + "\"");
 
 // Task 2
-string text = "aBcD1ef!-";
-Console.WriteLine(text);
-string newText = text.ToLower(); 
-Console.WriteLine(newText);
+int Ackermann(int m, int n) {
+    if (m == 0) return n + 1;
+    if (m > 0 && n == 0) return Ackermann(m - 1, 1);
+    return Ackermann(m - 1, Ackermann(m, n - 1));
+};
+int m = 2, n = 3;
+Console.WriteLine("m = " + m + ", n = " + n + " -> A(m,n) = " + Ackermann(n, m));
 
 // Task 3
-Console.WriteLine("Введите текст: ");
-string mPalindrome = Console.ReadLine();
-bool check = true;
-for (int i = 0; i < mPalindrome.Length; i++) {
-    if (mPalindrome[i] != mPalindrome[mPalindrome.Length - 1 -i]) {
-        check = false;
-        break;
+int[] array = {1, 2, 5, 0, 10, 34};
+Console.Write("[");
+for (int i = 0; i < array.Length; i ++) {
+    if (i == array.Length - 1) {
+        Console.Write(array[i] + "] => ");
+        continue;
+    }
+    Console.Write(array[i] + ", ");
+}
+void recursion(int[] array, int i = 0) {
+    if (i != array.Length) {
+        recursion(array, i + 1);
+        Console.Write(array[i] + " ");
     }
 }
-Console.WriteLine((check == true) ? "Да" : "Нет");
-
-// Task 4
-string Line = "Hello my world";
-Console.WriteLine(Line);
-string flipped = "";
-string temp = "";
-for (int i = 0; i < Line.Length; i++) {
-    if (Line[i] == ' ') {
-        flipped =  temp + "  " + flipped; 
-        temp = "";
-    }
-    else if (i == Line.Length - 1) {
-        temp = temp + Line[i];
-        flipped =  temp + "  " + flipped; 
-        temp = "";
-    } else temp = temp + Line[i];
-}
-Console.WriteLine(flipped);
+recursion(array);
